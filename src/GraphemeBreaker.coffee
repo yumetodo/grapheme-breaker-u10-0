@@ -1,7 +1,6 @@
-{Other,Prepend,CR,LF,Control,Extend,Regional_Indicator,SpacingMark,L,V,T,LV,LVT,E_Base,E_Modifier,ZWJ,Glue_After_Zwj,E_Base_GAZ} = require './classes.json'
+{trie, classes: {Other,Prepend,CR,LF,Control,Extend,Regional_Indicator,SpacingMark,L,V,T,LV,LVT,E_Base,E_Modifier,ZWJ,Glue_After_Zwj,E_Base_GAZ}} = require './classes.json'
 UnicodeTrie = require 'unicode-trie'
-fs = require 'fs'
-classTrie = new UnicodeTrie fs.readFileSync __dirname + '/classes.trie'
+classTrie = new UnicodeTrie(Buffer.from trie, 'base64')
 
 numArrayEq = (a, b) -> "#{a}" is "#{b}"
 isSurrogate = (str, pos) -> 0xd800 <= str.charCodeAt(pos) <= 0xdbff and 0xdc00 <= str.charCodeAt(pos + 1) <= 0xdfff
