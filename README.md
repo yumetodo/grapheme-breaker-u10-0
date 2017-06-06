@@ -47,8 +47,8 @@ contributing or fixing bugs, these things might be of interest.
   you may if, for instance, you want to change the Unicode version.
   
 * You can run the tests using `npm test`. They are written using `mocha`, and generated from
-  `GraphemeBreakTest.txt` from the Unicode database, which is included in the repository for performance
-  reasons while running them.
+  `GraphemeBreakTest.txt` and `emoji-test.txt` from the Unicode database, which is included in the
+  repository for performance reasons while running them.
 
 ## License
 
