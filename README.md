@@ -1,5 +1,7 @@
 # grapheme-breaker-u10-0
 
+[![Build Status](https://travis-ci.org/yumetodo/grapheme-breaker-u10-0.svg?branch=master)](https://travis-ci.org/yumetodo/grapheme-breaker-u10-0)
+
 This is a fork of `grapheme-breaker`. Support Unicode 10.0 and emoji v5 by @vaskevich.
 
 Please watch below before using this package.  
