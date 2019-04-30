@@ -10,13 +10,14 @@
     "unicode-trie": "^0.3.1"
   },
   "devDependencies": {
-    "chai": "^1.9.1",
-    "coffee-script": "^1.7.1",
-    "mocha": "^1.20.1",
-    "request": "^2.37.0"
+    "chai": "^4.2.0",
+    "coffeescript": "^2.4.1",
+    "mocha": "^6.1.4",
+    "request": "^2.88.0"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "mocha ./test/GraphemeBreaker.coffee",
+    "build": "coffee -c src/",
     "prepublish": "coffee -c src/",
     "postpublish": "rm -rf src/*.js"
   },
