@@ -4,3 +4,11 @@ node_js:
 cache: npm
 script:
 - npm test
+deploy:
+  provider: npm
+  email: yume-wikijp@live.jp
+  skip_cleanup: true
+  on:
+    tags: true
+  api_key:
+    secure: OCMzNH9MZ42uJGRlkRETh6IpFzDhDAXO7VTHy70CQ/qHx6Qo9HM2kAvlqLR6w0sYk48LpWz0+mHPBTBdJqPUbTQy4qVK27snmHZigzVCJXh7isRu8jHcVjT0L+60fBMybe8KkDtdDwRrkUujCph8LOwA77mQTj1mrshrHbl3dN0nD6pVNdOks9JMStCvuyII+IjuCQmexkgsuvCvnv7fsbJ6l0zztY+ZiB7NfBoQQOyAuq9nrQEhcYOboI7urkIbs/cN+7ChOTrmR54qvQ01o4oMAuywjtNsJRG9Gly5T9/HJZOA6PeqHjADMbTwX+A0Z2i2sp0E4Ad6La7cCTUytizdTfLh4cf35YZA5+oMZoqMSrsjDewHukW2bnhbY5ZJyPiw0hIJjJ1V14z73HMBiW1XEursxXkFeO1T87q96TWkF02tXGQAtJvwWJs3rmJ4IE3J8IlrqefCr+fYXkLQyj0vcBQiMEds2aJHwwCx1Zn6NIbK4slkN8+N5KrXnlJsiQ2DxIp1OSKqAAZqf5M985la7W2USV6Mn0kguiWLYYSnixIDteEdkA66EBMlwQwEcdVx/sGoagCh2SrNBHad/MwyQqY6syMesGdJq7khrb9YkxQnC/t1+SioMj/lUzIZCcvKP7egMi7JqKqVj0Jmd0YF8+0Ea2TGOinVgcvtyvI=
