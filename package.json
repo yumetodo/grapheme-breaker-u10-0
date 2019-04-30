@@ -1,5 +1,5 @@
 {
-  "name": "grapheme-breaker",
+  "name": "grapheme-breaker-u10-0",
   "version": "0.4.0",
   "description": "An implementation of the Unicode grapheme cluster breaking algorithm (UAX #29)",
   "main": "src/GraphemeBreaker",
@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/devongovett/grapheme-breaker"
+    "url": "git://github.com/yumetodo/grapheme-breaker-u10-0"
   },
   "keywords": [
     "unicode",
@@ -34,9 +34,13 @@
     "grapheme cluster"
   ],
   "author": "Devon Govett <devongovett@gmail.com>",
+  "contributors": [
+    "vaskevich <oleg@osv.im> (https://osv.im)",
+    "yumetodo <yume-wikijp@live.jp> (https://yumetodo.hateblo.jp/)"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/devongovett/grapheme-breaker/issues"
+    "url": "https://github.com/yumetodo/grapheme-breaker-u10-0/issues"
   },
-  "homepage": "https://github.com/devongovett/grapheme-breaker"
+  "homepage": "https://github.com/yumetodo/grapheme-breaker-u10-0"
 }
