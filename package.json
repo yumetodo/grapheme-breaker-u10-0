@@ -17,9 +17,7 @@
   },
   "scripts": {
     "test": "mocha ./test/GraphemeBreaker.coffee",
-    "build": "coffee -c src/",
-    "prepublish": "coffee -c src/",
-    "postpublish": "rm -rf src/*.js"
+    "build": "coffee -c src/"
   },
   "repository": {
     "type": "git",

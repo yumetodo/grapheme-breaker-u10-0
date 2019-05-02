@@ -4,6 +4,7 @@ node_js:
 cache: npm
 script:
 - npm test
+- npm run build
 deploy:
   provider: npm
   email: yume-wikijp@live.jp
