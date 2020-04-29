@@ -11,17 +11,14 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "coffeescript": "^2.4.1",
-    "mocha": "^7.0.1",
-    "request": "^2.88.0"
+    "mocha": "^7.1.2"
   },
   "scripts": {
-    "test": "mocha ./test/GraphemeBreaker.coffee",
-    "build": "coffee -c src/"
+    "test": "mocha ./test/GraphemeBreaker.mjs"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/yumetodo/grapheme-breaker-u10-0"
+    "url": "git://github.com/taisukef/grapheme-breaker-u10-0"
   },
   "keywords": [
     "unicode",
@@ -34,11 +31,12 @@
   "author": "Devon Govett <devongovett@gmail.com>",
   "contributors": [
     "vaskevich <oleg@osv.im> (https://osv.im)",
-    "yumetodo <yume-wikijp@live.jp> (https://yumetodo.hateblo.jp/)"
+    "yumetodo <yume-wikijp@live.jp> (https://yumetodo.hateblo.jp/)",
+    "taisukef <fukuno@jig.jp> (https://fukuno.jig.jp/)"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yumetodo/grapheme-breaker-u10-0/issues"
+    "url": "https://github.com/taisukef/grapheme-breaker-u10-0/issues"
   },
-  "homepage": "https://github.com/yumetodo/grapheme-breaker-u10-0"
+  "homepage": "https://github.com/taisukef/grapheme-breaker-u10-0"
 }
