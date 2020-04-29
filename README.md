@@ -1,7 +1,6 @@
 # grapheme-breaker-mjs
 
-This is a fork of `grapheme-breaker-u10-0`. Support Unicode 10.0 and emoji v5 by @yumetodo.  
-https://github.com/yumetodo/grapheme-breaker-u10-0  
+This is a fork of `grapheme-breaker-u10-0`. Support Unicode 10.0 and emoji v5 by [@yumetodo](https://github.com/yumetodo/grapheme-breaker-u10-0).    
 
 ## Overveiw
 
