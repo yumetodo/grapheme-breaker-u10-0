@@ -18,6 +18,7 @@ A JavaScript implementation for web apps and Node.js of the Unicode grapheme clu
 
 ```javascript
 import GraphemeBreaker from 'https://taisukef.github.io/grapheme-breaker-mjs/src/GraphemeBreaker.mjs'
+//import GraphemeBreaker from './src/GraphemeBreaker.mjs'
 
 // break a string into an array of grapheme clusters
 
