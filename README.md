@@ -1,17 +1,11 @@
-# grapheme-breaker-u10-0
+# grapheme-breaker-mjs
 
-[![Build Status](https://travis-ci.org/yumetodo/grapheme-breaker-u10-0.svg?branch=master)](https://travis-ci.org/yumetodo/grapheme-breaker-u10-0) [![Greenkeeper badge](https://badges.greenkeeper.io/yumetodo/grapheme-breaker-u10-0.svg)](https://greenkeeper.io/)
-
-This is a fork of `grapheme-breaker`. Support Unicode 10.0 and emoji v5 by @vaskevich.
-
-Please watch below before using this package.  
-[grapheme-breaker#4](https://github.com/foliojs/grapheme-breaker/pull/4)
-
-Original package is no longer maintained as far as I know. So, I republish this package.
+This is a fork of `grapheme-breaker-u10-0`. Support Unicode 10.0 and emoji v5 by @yumetodo.  
+https://github.com/yumetodo/grapheme-breaker-u10-0  
 
 ## Overveiw
 
-A JavaScript implementation of the Unicode grapheme cluster breaking algorithm ([UAX #29](http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries))
+A JavaScript implementation for web apps and Node.js of the Unicode grapheme cluster breaking algorithm ([UAX #29](http://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries))
 
 > It is important to recognize that what the user thinks of as a “character”—a basic unit of a writing system for a
 > language—may not be just a single Unicode code point. Instead, that basic unit may be made up of multiple Unicode
@@ -20,16 +14,10 @@ A JavaScript implementation of the Unicode grapheme cluster breaking algorithm (
 > represented by two Unicode code points. These user-perceived characters are approximated by what is called a grapheme cluster,
 > which can be determined programmatically.
 
-## Installation
-
-You can install via npm
-
-    npm install grapheme-breaker-u10-0
-
 ## Example
 
 ```javascript
-var GraphemeBreaker = require('grapheme-breaker-u10-0');
+import GraphemeBreaker from 'https://taisukef.github.io/grapheme-breaker-mjs/src/GraphemeBreaker.mjs'
 
 // break a string into an array of grapheme clusters
 
@@ -54,8 +42,8 @@ GraphemeBreaker.previousBreak('😜🇺🇸👍', 3) // => 2
 In order to use the library, you shouldn't need to know this, but if you're interested in
 contributing or fixing bugs, these things might be of interest.
 
-* The `src/classes.coffee` file is automatically generated from `GraphemeBreakProperty.txt` in the Unicode
-  database by `src/generate_data.coffee`. It should be rare that you need to run this, but
+* The `src/classes.mjs` file is generated from `GraphemeBreakProperty.txt` in the Unicode
+  database by `src/generate_data.mjs`. It should be rare that you need to run this, but
   you may if, for instance, you want to change the Unicode version.
 * You can run the tests using `npm test`. They are written using `mocha`, and generated from
   `GraphemeBreakTest.txt` and `emoji-test.txt` from the Unicode database, which is included in the
