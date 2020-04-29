@@ -86,7 +86,7 @@ describe('GraphemeBreaker', function() {
   });
   it('should pass all tests in GraphemeBreakTest.txt', function() {
     var codePoints, cols, comment, data, expected, j, len, line, lines, results, str;
-    data = fs.readFileSync(__dirname + '/GraphemeBreakTest.txt', 'utf8');
+    data = fs.readFileSync(__dirname + '/GraphemeBreakTest-13.0.0.txt', 'utf8');
     lines = data.split('\n');
     results = [];
     for (j = 0, len = lines.length; j < len; j++) {
@@ -115,7 +115,7 @@ describe('GraphemeBreaker', function() {
   });
   it('should pass all tests in GraphemeBreakTest.txt in reverse', function() {
     var brk, codePoints, cols, comment, data, expected, index, j, len, line, lines, res, results, str;
-    data = fs.readFileSync(__dirname + '/GraphemeBreakTest.txt', 'utf8');
+    data = fs.readFileSync(__dirname + '/GraphemeBreakTest-13.0.0.txt', 'utf8');
     lines = data.split('\n');
     results = [];
     for (j = 0, len = lines.length; j < len; j++) {
@@ -143,7 +143,8 @@ describe('GraphemeBreaker', function() {
         index = brk;
       }
       res.push(str.slice(0, index));
-      results.push(expect(res).to.deep.equal(expected.reverse(), comment.trim()));
+      //results.push(expect(res).to.deep.equal(expected.reverse(), comment.trim()));
+      results.push(expect(res).to.deep.equal(expected.reverse(), line.trim()));
     }
     return results;
   });

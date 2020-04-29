@@ -1,6 +1,6 @@
-import classesmjs from './classes-v13.0.0.mjs'
+import classesmjs from './classes-v10.0.0.mjs'
 const trie = classesmjs.trie
-const { Other, Prepend, CR, LF, Control, Extend, Regional_Indicator, SpacingMark, L, V, T, LV, LVT, ZWJ} = classesmjs.classes
+const { Other, Prepend, CR, LF, Control, Extend, Regional_Indicator, SpacingMark, L, V, T, LV, LVT, E_Base, E_Modifier, ZWJ, Glue_After_Zwj, E_Base_GAZ } = classesmjs.classes
 
 //import UnicodeTrie from 'unicode-trie'
 import UnicodeTrie from './unicode-trie/index.mjs'
@@ -54,97 +54,94 @@ const BreakType = {
 }
 
 // Returns whether a break is allowed within a sequence of grapheme breaking classes
-const shouldBreak = function(reverse) {
-  return function(start, mid, end) {
-    const all = [start].concat(mid).concat([end])
-    const previous = reverse ? start : all[all.length - 2]
-    const next = reverse ? all[1] : end
-    // Lookahead termintor for:
-    // GB11. ExtPict Extend * ZWJ	×	ExtPict ??
-    let eExtendIndex = all.lastIndexOf(Extend)
-    if (eExtendIndex > 1 && all.slice(1, eExtendIndex).every(c => c === Extend) && start !== Extend) {
+const shouldBreak = function(reverse, start, mid, end) {
+  const all = [start].concat(mid).concat([end])
+  const previous = reverse ? start : all[all.length - 2]
+  const next = reverse ? all[1] : end
+  // Lookahead termintor for:
+  // GB10. (E_Base | EBG) Extend* ×	E_Modifier
+  let eModifierIndex = all.lastIndexOf(E_Modifier)
+  if (eModifierIndex > 1 && all.slice(1, eModifierIndex).every(c => c === Extend) && (start !== Extend && start !== E_Base && start !== E_Base_GAZ)) {
+    return BreakType.Break
+  }
+  // Lookahead termintor for:
+  // GB12. ^ (RI RI)* RI	×	RI
+  // GB13. [^RI] (RI RI)* RI	×	RI
+  let rIIndex = all.lastIndexOf(Regional_Indicator)
+  if (rIIndex > 0 && all.slice(1, rIIndex).every(c => c === Regional_Indicator) && (previous !== Prepend && previous !== Regional_Indicator)) {
+    if (all.filter(c => c === Regional_Indicator).length % 2 === 1) {
+      return BreakType.BreakLastRegional
+    } else {
+      return BreakType.BreakPenultimateRegional
+    }
+  }
+  // GB3. CR X LF
+  if (previous === CR && next === LF) {
+    return BreakType.NotBreak
+  }
+  // GB4. (Control|CR|LF) ÷
+  if (previous === Control || previous === CR || previous === LF) {
+    if (next === E_Modifier && mid.every(c => c === Extend)) {
       return BreakType.Break
-    }
-    // Lookahead termintor for:
-    // GB12. ^ (RI RI)* RI	×	RI
-    // GB13. [^RI] (RI RI)* RI	×	RI
-    let rIIndex = all.lastIndexOf(Regional_Indicator)
-    if (rIIndex > 0 && all.slice(1, rIIndex).every(function(c) {
-      return c === Regional_Indicator
-    }) && (previous !== Prepend && previous !== Regional_Indicator)) {
-      if (all.filter(function(c) {
-        return c === Regional_Indicator
-      }).length % 2 === 1) {
-        return BreakType.BreakLastRegional
-      } else {
-        return BreakType.BreakPenultimateRegional
-      }
-    }
-    // GB3. CR X LF
-    if (previous === CR && next === LF) {
-      return BreakType.NotBreak
-    }
-    // GB4. (Control|CR|LF) ÷
-    if (previous === Control || previous === CR || previous === LF) {
-      if (next === E_Modifier && mid.every(function(c) {
-        return c === Extend
-      })) {
-        return BreakType.Break
-      } else {
-        return BreakType.BreakStart
-      }
-    }
-    // GB5. ÷ (Control|CR|LF)
-    if (next === Control || next === CR || next === LF) {
+    } else {
       return BreakType.BreakStart
     }
-    // GB6. L X (L|V|LV|LVT)
-    if (previous === L && (next === L || next === V || next === LV || next === LVT)) {
-      return BreakType.NotBreak
-    }
-    // GB7. (LV|V) X (V|T)
-    if ((previous === LV || previous === V) && (next === V || next === T)) {
-      return BreakType.NotBreak
-    }
-    // GB8. (LVT|T) X (T)
-    if ((previous === LVT || previous === T) && next === T) {
-      return BreakType.NotBreak
-    }
-    // GB9. X (Extend|ZWJ)
-    if (next === Extend || next === ZWJ) {
-      return BreakType.NotBreak
-    }
-    // GB9a. X SpacingMark
-    if (next === SpacingMark) {
-      return BreakType.NotBreak
-    }
-    // GB9b. Prepend X
-    if (previous === Prepend) {
-      return BreakType.NotBreak
-    }
-    // GB11. ExtPict Extend * ZWJ	×	ExtPict ??
-    if (reverse) {
-      eExtendIndex = all.lastIndexOf(Extend)
-      if (previous === Extend && eExtendIndex > 0 && all.slice(1, eExtendIndex).every(c => c === Extend)) {
-        return BreakType.NotBreak
-      }
-    } else {
-      const previousNonExtendIndex = all.indexOf(Extend) >= 0 ? all.lastIndexOf(Extend) - 1 : all.length - 2
-      if (all[previousNonExtendIndex] === Extend && all.slice(previousNonExtendIndex + 1, -1).every(c => c === Extend)) {
-        return BreakType.NotBreak
-      }
-    }
-    // GB12. ^ (RI RI)* RI	×	RI
-    // GB13. [^RI] (RI RI)* RI	×	RI
-    if (!reverse && mid.indexOf(Regional_Indicator) >= 0) {
-      return BreakType.Break
-    }
-    if (previous === Regional_Indicator && next === Regional_Indicator) {
-      return BreakType.NotBreak
-    }
-    // GB999. Any ÷ Any
+  }
+  // GB5. ÷ (Control|CR|LF)
+  if (next === Control || next === CR || next === LF) {
     return BreakType.BreakStart
   }
+  // GB6. L X (L|V|LV|LVT)
+  if (previous === L && (next === L || next === V || next === LV || next === LVT)) {
+    return BreakType.NotBreak
+  }
+  // GB7. (LV|V) X (V|T)
+  if ((previous === LV || previous === V) && (next === V || next === T)) {
+    return BreakType.NotBreak
+  }
+  // GB8. (LVT|T) X (T)
+  if ((previous === LVT || previous === T) && next === T) {
+    return BreakType.NotBreak
+  }
+  // GB9. X (Extend|ZWJ)
+  if (next === Extend || next === ZWJ) {
+    return BreakType.NotBreak
+  }
+  // GB9a. X SpacingMark
+  if (next === SpacingMark) {
+    return BreakType.NotBreak
+  }
+  // GB9b. Prepend X
+  if (previous === Prepend) {
+    return BreakType.NotBreak
+  }
+  // GB10. (E_Base | EBG) Extend* ×	E_Modifier
+  if (reverse) {
+    eModifierIndex = all.lastIndexOf(E_Modifier)
+    if ((previous === E_Base || previous === E_Base_GAZ || previous === Extend) && eModifierIndex > 0 && all.slice(1, eModifierIndex).every(c => c === Extend)) {
+      return BreakType.NotBreak
+    }
+  } else {
+    let ref
+    const previousNonExtendIndex = all.indexOf(Extend) >= 0 ? all.lastIndexOf(Extend) - 1 : all.length - 2
+    if (((ref = all[previousNonExtendIndex]) === E_Base || ref === E_Base_GAZ) && all.slice(previousNonExtendIndex + 1, -1).every(c => c === Extend) && next === E_Modifier) {
+      return BreakType.NotBreak
+    }
+  }
+  // GB11. ZWJ	×	(Glue_After_Zwj | EBG)
+  if (previous === ZWJ && (next === Glue_After_Zwj || next === E_Base_GAZ)) {
+    return BreakType.NotBreak
+  }
+  // GB12. ^ (RI RI)* RI	×	RI
+  // GB13. [^RI] (RI RI)* RI	×	RI
+  if (!reverse && mid.indexOf(Regional_Indicator) >= 0) {
+    return BreakType.Break
+  }
+  if (previous === Regional_Indicator && next === Regional_Indicator) {
+    return BreakType.NotBreak
+  }
+  // GB999. Any ÷ Any
+  return BreakType.BreakStart
 }
 
 const getUnicodeByteOffset = function(str, start, unicodeOffset) {
@@ -173,7 +170,7 @@ exports.nextBreak = function(string, index = 0) {
       continue
     }
     const next = classTrie.get(string.codePointAt(i))
-    if (shouldBreak(false)(prev, mid, next)) {
+    if (shouldBreak(false, prev, mid, next)) {
       return i
     }
     mid.push(next)
@@ -199,7 +196,7 @@ exports.previousBreak = function(string, index = string.length) {
       continue
     }
     let prev = classTrie.get(codePointAt(string, i))
-    switch (shouldBreak(true)(prev, mid, next)) {
+    switch (shouldBreak(true, prev, mid, next)) {
       case BreakType.Break:
         return i + mid.length + 1
       case BreakType.BreakStart:
@@ -243,5 +240,15 @@ exports.countBreaks = function(str) {
   }
   return count
 }
+
+//console.log(exports.break("👨‍👨‍👧‍👦👩‍👩‍👧‍👦👨‍👨‍👧‍👦"))
+
+//const s = "🍓👨‍👨‍👧‍👦🍓"
+//const s = "👨‍👨‍👧‍👦👩‍👩‍👧‍👦🇮🇸🇮🇪👨‍⚕️👩🏽‍⚕️👵"
+//const s = 'a\nb'
+//const s = "👨‍👨‍👧‍👦👩‍👩‍👧‍👦🇮🇸🇮🇪👨‍⚕️👩🏽‍⚕️👵👨‍❤️‍💋‍👨👩‍👧‍👧"
+const s = ' 🏻'
+//const s = 'a\nb'
+console.log(exports.break(s))
 
 export default exports
