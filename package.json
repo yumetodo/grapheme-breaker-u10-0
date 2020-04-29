@@ -1,5 +1,5 @@
 {
-  "name": "grapheme-breaker-u10-0",
+  "name": "grapheme-breaker-mjs",
   "version": "0.4.2",
   "description": "An implementation of the Unicode grapheme cluster breaking algorithm (UAX #29)",
   "main": "src/GraphemeBreaker",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/taisukef/grapheme-breaker-u10-0"
+    "url": "git://github.com/taisukef/grapheme-breaker-mjs"
   },
   "keywords": [
     "unicode",
@@ -36,7 +36,7 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/taisukef/grapheme-breaker-u10-0/issues"
+    "url": "https://github.com/taisukef/grapheme-breaker-mjs/issues"
   },
-  "homepage": "https://github.com/taisukef/grapheme-breaker-u10-0"
+  "homepage": "https://github.com/taisukef/grapheme-breaker-mjs"
 }
