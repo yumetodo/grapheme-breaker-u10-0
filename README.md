@@ -16,6 +16,9 @@ A JavaScript implementation for web apps and Node.js of the Unicode grapheme clu
 
 ## Example
 
+test page  
+https://taisukef.github.io/grapheme-breaker-mjs/  
+
 ```javascript
 import GraphemeBreaker from 'https://taisukef.github.io/grapheme-breaker-mjs/src/GraphemeBreaker.mjs'
 //import GraphemeBreaker from './src/GraphemeBreaker.mjs'
