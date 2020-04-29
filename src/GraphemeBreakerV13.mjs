@@ -1,6 +1,6 @@
-import classesmjs from './classes-v10.0.0.mjs'
+import classesmjs from './classes-v13.0.0.mjs'
 const trie = classesmjs.trie
-const { Other, Prepend, CR, LF, Control, Extend, Regional_Indicator, SpacingMark, L, V, T, LV, LVT, E_Base, E_Modifier, ZWJ, Glue_After_Zwj, E_Base_GAZ } = classesmjs.classes
+const { Other, Prepend, CR, LF, Control, Extend, Regional_Indicator, SpacingMark, L, V, T, LV, LVT, ZWJ} = classesmjs.classes
 
 //import UnicodeTrie from 'unicode-trie'
 import UnicodeTrie from './unicode-trie/index.mjs'
@@ -60,11 +60,9 @@ const shouldBreak = function(reverse) {
     const previous = reverse ? start : all[all.length - 2]
     const next = reverse ? all[1] : end
     // Lookahead termintor for:
-    // GB10. (E_Base | EBG) Extend* ×	E_Modifier
-    let eModifierIndex = all.lastIndexOf(E_Modifier)
-    if (eModifierIndex > 1 && all.slice(1, eModifierIndex).every(function(c) {
-      return c === Extend
-    }) && (start !== Extend && start !== E_Base && start !== E_Base_GAZ)) {
+    // GB11. ExtPict Extend * ZWJ	×	ExtPict ??
+    let eExtendIndex = all.lastIndexOf(Extend)
+    if (eExtendIndex > 1 && all.slice(1, eExtendIndex).every(c => c === Extend) && start !== Extend) {
       return BreakType.Break
     }
     // Lookahead termintor for:
@@ -124,26 +122,17 @@ const shouldBreak = function(reverse) {
     if (previous === Prepend) {
       return BreakType.NotBreak
     }
-    // GB10. (E_Base | EBG) Extend* ×	E_Modifier
+    // GB11. ExtPict Extend * ZWJ	×	ExtPict ??
     if (reverse) {
-      eModifierIndex = all.lastIndexOf(E_Modifier)
-      if ((previous === E_Base || previous === E_Base_GAZ || previous === Extend) && eModifierIndex > 0 && all.slice(1, eModifierIndex).every(function(c) {
-        return c === Extend
-      })) {
+      eExtendIndex = all.lastIndexOf(Extend)
+      if (previous === Extend && eExtendIndex > 0 && all.slice(1, eExtendIndex).every(c => c === Extend)) {
         return BreakType.NotBreak
       }
     } else {
-      let ref
       const previousNonExtendIndex = all.indexOf(Extend) >= 0 ? all.lastIndexOf(Extend) - 1 : all.length - 2
-      if (((ref = all[previousNonExtendIndex]) === E_Base || ref === E_Base_GAZ) && all.slice(previousNonExtendIndex + 1, -1).every(function(c) {
-        return c === Extend
-      }) && next === E_Modifier) {
+      if (all[previousNonExtendIndex] === Extend && all.slice(previousNonExtendIndex + 1, -1).every(c => c === Extend)) {
         return BreakType.NotBreak
       }
-    }
-    // GB11. ZWJ	×	(Glue_After_Zwj | EBG)
-    if (previous === ZWJ && (next === Glue_After_Zwj || next === E_Base_GAZ)) {
-      return BreakType.NotBreak
     }
     // GB12. ^ (RI RI)* RI	×	RI
     // GB13. [^RI] (RI RI)* RI	×	RI
