@@ -1,5 +1,9 @@
 # grapheme-breaker-u10-0
 
+## Depecated
+
+This libary is no longer maintained. Please use [`grapheme-breaker-mjs`](https://www.npmjs.com/package/grapheme-breaker-mjs) which is a fork library and supports Unicode 13.0.0.
+
 [![Build Status](https://travis-ci.org/yumetodo/grapheme-breaker-u10-0.svg?branch=master)](https://travis-ci.org/yumetodo/grapheme-breaker-u10-0) [![Greenkeeper badge](https://badges.greenkeeper.io/yumetodo/grapheme-breaker-u10-0.svg)](https://greenkeeper.io/)
 
 This is a fork of `grapheme-breaker`. Support Unicode 10.0 and emoji v5 by @vaskevich.
